@@ -1,31 +1,18 @@
-# This is a basic workflow to help you get started with Actions
 
-name: CI
+name: vulnerability scan workflow
 
-# Controls when the action will run. 
-on:
-  # Triggers the workflow on push or pull request events but only for the dev branch
-  push:
-    branches: [ dev ]
-  pull_request:
-    branches: [ dev ]
+on: push
 
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
-    runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - uses: actions/checkout@v2
-
-      - name: Meterian Scanner
-        uses: MeterianHQ/meterian-github-action@v1.0.5]
-        env:
-          METERIAN_API_TOKEN: ${{ secrets.METERIAN_API_TOKEN }}
+    meterian_scan:
+        name: Meterian client scan
+        runs-on: ubuntu-latest
+        steps: 
+          - name: Checkout
+            uses: actions/checkout@v2
+          - name: Scan project with the Meterian client
+            uses: MeterianHQ/meterian-github-action@v1.0.5
+            env:
+                METERIAN_API_TOKEN: ${{ secrets.METERIAN_API_TOKEN }}
+            with:
+                cli_args: "" #[ Meterian CLI Options ]
